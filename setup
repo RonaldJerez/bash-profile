@@ -1,0 +1,29 @@
+#!/bin/bash
+# setup script to link to the new bash profile
+# created by Ronald Jerez (e052007)
+
+# the new profile is already setup
+(($_COMMON_PROFILE_SET_)) && {
+	style red "Your bash profile is already setup, exiting"
+	exit
+}
+
+# location to script
+profileScript="$(pwd)/bash_profile.sh"
+
+# the code to prepend to the .bash_profile
+code="#!/bin/bash\\
+if [ -f $profileScript ]; then\\
+	source $profileScript\\
+fi\\
+"
+
+if [ -f ~/.bash_profile ]; then
+	# replace first line in an existing profile
+	sed -i ".bak" "1s|.*|${code}|" ~/.bash_profile
+else
+	# create a new profile
+	echo -ne "${code}" | tr "\\" " " > ~/.bash_profile
+fi
+
+echo -ne "\n\nSetup complete, restart your terminal instances\n\n"
