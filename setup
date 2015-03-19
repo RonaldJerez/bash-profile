@@ -23,7 +23,7 @@ if [ -f ~/.bash_profile ]; then
 	sed -i ".bak" "1s|.*|${code}|" ~/.bash_profile
 else
 	# create a new profile
-	echo -ne "${code}" | tr "\\" " " > ~/.bash_profile
+	echo -ne "${code}" | tr -d "\\" > ~/.bash_profile
 fi
 
 echo -ne "\n\nSetup complete, restart your terminal instances\n\n"

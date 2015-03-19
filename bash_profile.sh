@@ -1,5 +1,6 @@
 #!/bin/bash
 # bash profile created by Ronald Jerez (e052007)
+
 style() {
 	local black=30
 	local red=31
@@ -85,9 +86,9 @@ USERNAME=$(finger $USER | head -1 | cut -d : -f 3)
 # Change the command line style
 export PS1='\n$(style green "#$USERNAME [\T] \w/"; git_branch)\n'
 
-export HISTCONTROL=erasedups
+export HISTCONTROL="erasedups:ignoreboth"
 export HISTTIMEFORMAT="$(style yellow)%h %d %H:%M:%S > $(style none)"
-export HISTIGNORE="ls*:cd*:echo*"
+# export HISTIGNORE="ls*:cd*:echo*"
 
 # export a variable so we dont re-setup the profile
 export _COMMON_PROFILE_SET_=1
