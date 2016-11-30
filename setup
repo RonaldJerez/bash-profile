@@ -1,6 +1,6 @@
 #!/bin/bash
 # setup script to link to the new bash profile
-# created by Ronald Jerez (github/dlanor15)
+# created by Ronald Jerez Ronald Jerez (github.com/ronaldjerez)
 
 # the new profile is already setup
 (($_COMMON_PROFILE_SET_)) && {
@@ -9,7 +9,7 @@
 }
 
 # location to script
-profileScript="$(pwd)/bash_profile.sh"
+profileScript="$(pwd)/profile.bash"
 
 # the code to prepend to the .bash_profile
 code="\\

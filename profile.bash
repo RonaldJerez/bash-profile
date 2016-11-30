@@ -56,6 +56,7 @@ alias ls='ls -Glhp'
 alias gp='git pull'
 alias gf='git fetch -p'
 alias gc='git checkout'
+alias ga='git add'
 alias gclean='git fetch -p && git branch | grep -Ev "master|dev" | xargs git branch -D'
 
 # export a variable so we dont re-setup the profile
