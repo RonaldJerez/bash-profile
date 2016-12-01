@@ -14,10 +14,16 @@ profileScript="$(pwd)/profile.bash"
 # the code to prepend to the .bash_profile
 code="\\
 # Available GIT PROMPT options\\
-#GIT_PS1_SHOWDIRTYSTATE=1\\
-#GIT_PS1_SHOWCOLORHINTS=1\\
-#GIT_PS1_SHOWUNTRACKEDFILES=1\\
-#GIT_PS1_SHOWSTASHSTATE=1\\
+# GIT_PROMPT_SHOW_DIRTY=1\\
+# GIT_PROMPT_SHOW_STASH=1\\
+# GIT_PROMPT_SHOW_AHEAD=1\\
+# GIT_PROMPT_SHOW_BEHIND=1\\
+\\
+# You can also change the default colors
+# GIT_PROMPT_CLEAN_COLOR=green\\
+# GIT_PROMPT_DIRTY_COLOR=red\\
+# GIT_PROMPT_AHEAD_COLOR="light cyan"\\
+# GIT_PROMPT_BEHIND_COLOR="light black"\\
 \\
 if [ -f $profileScript ]; then\\
 	source $profileScript\\
