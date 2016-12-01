@@ -28,7 +28,7 @@ fi
 # Change the command line style
 # get the user display name rather than handle
 USERNAME=$(finger $USER | head -1 | cut -d : -f 3)
-PROMPT_COMMAND='__git_ps1 "\\n$CYAN# $USERNAME [\T] $YELLOW\w/$CLEAR" "\\n"'
+PROMPT_COMMAND='__git_ps1 "\\n$CYAN#$USERNAME [\T] $YELLOW\w$CLEAR" "\\n" " | %s "'
 
 # some handy history control
 export HISTCONTROL="erasedups:ignoreboth"
@@ -36,7 +36,8 @@ export HISTTIMEFORMAT="$YELLOW%h %d %H:%M:%S > $CLEAR"
 export HISTIGNORE="ls*:cd*:echo*"
 alias h='history | grep'
 
-# use sublime to edit files
+# use sublime to edit files if its available, must create a link to sublime cli first
+# ln -s  "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/sublime
 if hash sublime 2>/dev/null; then
 	alias edit='sublime'
 fi
@@ -55,8 +56,9 @@ bind "set show-all-if-ambiguous on"
 alias ls='ls -Glhp'
 alias gp='git pull'
 alias gf='git fetch -p'
-alias gc='git checkout'
+alias go='git checkout'
 alias ga='git add'
+alias gc='git commit'
 alias gclean='git fetch -p && git branch | grep -Ev "master|dev" | xargs git branch -D'
 
 # export a variable so we dont re-setup the profile
