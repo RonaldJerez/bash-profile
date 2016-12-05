@@ -4,7 +4,7 @@
 
 # the new profile is already setup
 (($_COMMON_PROFILE_SET_)) && {
-	style red "\n\nYour bash profile is already setup, exiting\n\n"
+	echo -e "\033[0;91m\n\nYour bash profile is already setup, exiting\n\n\033[0m"
 	exit
 }
 
@@ -34,5 +34,4 @@ fi\\
 
 # append the code to the bash profile
 echo -ne "${code}" | tr -d "\\" >> ~/.bash_profile
-source ~/.bash_profile
-style light green "\n\nSetup complete, restart your terminal instance.\n\n"
+echo -e "\033[0;92m\n\nSetup complete, restart your terminal instance.\n\n\033[0m"

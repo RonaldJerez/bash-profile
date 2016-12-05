@@ -132,6 +132,7 @@ prompt_git() {
 }
 
 # source in git completion
+# TODO include own git completion file instead of relying on xcode
 source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-completion.bash
 
 if [[ $MACHTYPE =~ apple ]]; then
@@ -158,12 +159,6 @@ alias h='history | grep'
 # ln -s  "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/sublime
 if hash sublime 2>/dev/null; then
 	alias edit='sublime'
-fi
-
-# setup nvm if available
-if [ -d $HOME/.nvm ]; then
-	export NVM_DIR="$HOME/.nvm"
-	[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 fi
 
 # ignore case for auto complete
