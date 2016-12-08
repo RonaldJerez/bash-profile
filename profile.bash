@@ -93,7 +93,7 @@ prompt_git() {
 			fi
 
 			# check for stashed files
-			if [[ -n $GIT_PROMPT_SHOW_STASH && $(git rev-parse --verify refs/stash &>/dev/null) ]]; then
+			if [[ -n $GIT_PROMPT_SHOW_STASH && -n $(git rev-parse --verify refs/stash 2>/dev/null) ]]; then
 				s="$s$"
 			fi
 
