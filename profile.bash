@@ -174,5 +174,9 @@ alias ga='git add'
 alias gc='git commit'
 alias gclean='git fetch -p && git branch | grep -Ev "master|dev" | xargs git branch -D'
 
+# install GEMs locally so we dont need to use sudo
+export GEM_HOME=$HOME/.gem
+export PATH="$GEM_HOME/bin:$PATH"
+
 # export a variable so we dont re-setup the profile
 export _COMMON_PROFILE_SET_=1
