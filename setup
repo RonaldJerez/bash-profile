@@ -25,6 +25,8 @@ GIT_PROMPT_SHOW_BEHIND=1\\
 # GIT_PROMPT_AHEAD_COLOR=\"light cyan\"\\
 # GIT_PROMPT_BEHIND_COLOR=\"light black\"\\
 \\
+# SHOW_NODE_VERSION=1\\
+\\
 if [ -f $profileScript ]; then\\
 	source $profileScript\\
 fi\\

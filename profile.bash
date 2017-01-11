@@ -131,6 +131,18 @@ prompt_git() {
 	fi
 }
 
+nvm_padded() {
+	if [[ $1 == 'use' || $1 == 'install' ]]; then
+		nvm $@ && get_node_version
+	else
+		nvm $@
+	fi
+}
+
+get_node_version() {
+   NODE_VERSION=$(node -v)
+}
+
 # source in git completion
 # TODO include own git completion file instead of relying on xcode
 source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-completion.bash
@@ -147,7 +159,17 @@ fi
 # get the user display name rather than handle
 USERNAME=$(finger $USER | head -1 | cut -d : -f 3)
 #PROMPT_COMMAND='__git_ps1 "\\n$CYAN#$USERNAME [\T] $YELLOW\w$CLEAR" "\\n" " | %s "'
-export PS1='\n$(style cyan "#$USERNAME [\T] "; style yellow "\w"; prompt_git)\n'
+_PS1='\n$(style cyan "#$USERNAME [\T] "; style yellow "\w"; prompt_git)'
+
+if [[ -n $SHOW_NODE_VERSION ]]; then
+	get_node_version
+	alias nvm=nvm_padded
+
+	_PS1="$_PS1$(style green ' - $NODE_VERSION')"
+fi
+
+_PS1="$_PS1\n"
+export PS1=$_PS1
 
 # some handy history control
 export HISTCONTROL="erasedups:ignoreboth"
@@ -174,9 +196,10 @@ alias ga='git add'
 alias gc='git commit'
 alias gclean='git fetch -p && git branch | grep -Ev "master|dev" | xargs git branch -D'
 
-# install GEMs locally so we dont need to use sudo
+# install GEMs and NPM packages locally so we dont need to use sudo
 export GEM_HOME=$HOME/.gem
-export PATH="$GEM_HOME/bin:$PATH"
+export NPM_PACKAGES=$HOME/.npm-packages
+export PATH="$GEM_HOME/bin:$NPM_PACKAGES/bin:$PATH"
 
 # export a variable so we dont re-setup the profile
 export _COMMON_PROFILE_SET_=1
