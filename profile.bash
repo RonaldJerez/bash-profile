@@ -13,6 +13,14 @@ GRAY="\e[0;37m"
 WHITE="\e[0;97m"
 CLEAR="\e[0m"
 
+tabname() {
+  printf "\e]1;$1\a"
+}
+
+winname() {
+  printf "\e]2;$1\a"
+}
+
 # function to style console output
 # you can combine, color, style, or make color lighther
 # combining of format (bold/underline etc) is not supported
@@ -143,6 +151,14 @@ get_node_version() {
    NODE_VERSION=$(node -v)
 }
 
+open_code() {
+	if [ "$#" -eq 1 ] && [ -f $1 ]; then
+		code -r $1
+	else
+		code $@
+	fi
+}
+
 # source in git completion
 # TODO include own git completion file instead of relying on xcode
 source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-completion.bash
@@ -181,6 +197,12 @@ alias h='history | grep'
 # ln -s  "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/sublime
 if hash sublime 2>/dev/null; then
 	alias edit='sublime'
+fi
+
+# if code is installed, set it to open files in existing windows, and only open directories in new windows
+if hash code 2>/dev/null; then
+	alias code=open_code
+	alias edit=open_code
 fi
 
 # ignore case for auto complete
