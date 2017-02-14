@@ -130,15 +130,17 @@ prompt_git() {
 					  git rev-parse --short HEAD 2> /dev/null || \
 					  printf "(unknown)")"
 
-		[ -n "$s" ] && s="[$s]"
+		[ -n "$s" ] && s=" [$s]"
 
-		printf " on "
-		style $color "$branchName $s"
+		#printf " on "
+		style $color " @$branchName$s"
 	else
 		return
 	fi
 }
 
+# when running NVM check to see if we are changing to a different version 
+# and update the variable NODE_VERSION on this script for prompt purposes
 nvm_padded() {
 	if [[ $1 == 'use' || $1 == 'install' ]]; then
 		nvm $@ && get_node_version
@@ -147,10 +149,13 @@ nvm_padded() {
 	fi
 }
 
+# gets the currrent version of node and stores it on a global variable
 get_node_version() {
    NODE_VERSION=$(node -v)
 }
 
+# if we are tyring to open a directory open it on a new editor
+# otherwise open a file in an existing editor
 open_code() {
 	if [ "$#" -eq 1 ] && [ -f $1 ]; then
 		code -r $1
@@ -171,10 +176,9 @@ else
 	export LSCOLORS='di=33:ln=36:fi=0:pi=36:ex=32:so=1;35:bd=01;33:cd=01;33:or=37:mi=37'
 fi
 
-# Change the command line style
 # get the user display name rather than handle
 USERNAME=$(finger $USER | head -1 | cut -d : -f 3)
-#PROMPT_COMMAND='__git_ps1 "\\n$CYAN#$USERNAME [\T] $YELLOW\w$CLEAR" "\\n" " | %s "'
+# Change the command line style
 _PS1='\n$(style cyan "#$USERNAME [\T] "; style yellow "\w"; prompt_git)'
 
 if [[ -n $SHOW_NODE_VERSION ]]; then
