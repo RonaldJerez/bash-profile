@@ -139,7 +139,7 @@ prompt_git() {
 	fi
 }
 
-# when running NVM check to see if we are changing to a different version 
+# when running NVM check to see if we are changing to a different version
 # and update the variable NODE_VERSION on this script for prompt purposes
 nvm_padded() {
 	if [[ $1 == 'use' || $1 == 'install' ]]; then
@@ -215,12 +215,12 @@ bind "set show-all-if-ambiguous on"
 
 # some handy alias
 alias ls='ls -Glhp'
-alias gp='git pull'
-alias gf='git fetch -p'
-alias go='git checkout'
-alias ga='git add'
-alias gc='git commit'
+
+# removes all branches except for dev and master from local, and cleans remote references
 alias gclean='git fetch -p && git branch | grep -Ev "master|dev" | xargs git branch -D'
+
+# removes branches in local that are also gone in remote
+alias gprune='git fetch -p && git branch -vv | grep ": gone" | awk "{print $1}" | xargs -p git branch -d'
 
 # install GEMs and NPM packages locally so we dont need to use sudo
 export GEM_HOME=$HOME/.gem
