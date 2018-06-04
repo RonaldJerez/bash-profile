@@ -13,14 +13,6 @@ GRAY="\e[0;37m"
 WHITE="\e[0;97m"
 CLEAR="\e[0m"
 
-tabname() {
-  printf "\e]1;$1\a"
-}
-
-winname() {
-  printf "\e]2;$1\a"
-}
-
 # function to style console output
 # you can combine, color, style, or make color lighther
 # combining of format (bold/underline etc) is not supported
@@ -168,24 +160,17 @@ open_code() {
 # TODO include own git completion file instead of relying on xcode
 source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-completion.bash
 
-if [[ $MACHTYPE =~ apple ]]; then
-	# OSX specific
-	export LSCOLORS='dxgxExgxbxDgDdabagacad'
-else
-	# nix specific
-	export LSCOLORS='di=33:ln=36:fi=0:pi=36:ex=32:so=1;35:bd=01;33:cd=01;33:or=37:mi=37'
-fi
-
 # get the user display name rather than handle
 USERNAME=$(finger $USER | head -1 | cut -d : -f 3)
+
 # Change the command line style
-_PS1='\n$(style cyan "#$USERNAME [\T] "; style yellow "\w"; prompt_git)'
+_PS1='\n$(style light black "#$USERNAME [\T] "; style cyan "\w"; prompt_git)'
 
 if [[ -n $SHOW_NODE_VERSION ]]; then
 	get_node_version
 	alias nvm=nvm_padded
 
-	_PS1="$_PS1$(style green ' - $NODE_VERSION')"
+	_PS1="$_PS1 $(style green '⬢ ${NODE_VERSION:1}')"
 fi
 
 _PS1="$_PS1\n"
@@ -194,14 +179,8 @@ export PS1=$_PS1
 # some handy history control
 export HISTCONTROL="erasedups:ignoreboth"
 export HISTTIMEFORMAT="$(style green)%h %d %H:%M:%S > $(style clear)"
-export HISTIGNORE="ls*:cd*:echo*"
+export HISTIGNORE="ls*:cd*:echo*:man*:h *:clear"
 alias h='history | grep'
-
-# use sublime to edit files if its available, must create a link to sublime cli first
-# ln -s  "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/sublime
-if hash sublime 2>/dev/null; then
-	alias edit='sublime'
-fi
 
 # if code is installed, set it to open files in existing windows, and only open directories in new windows
 if hash code 2>/dev/null; then
@@ -213,14 +192,29 @@ fi
 bind "set completion-ignore-case on"
 bind "set show-all-if-ambiguous on"
 
-# some handy alias
-alias ls='ls -Glhp'
+# fancy ls
+if [[ $MACHTYPE =~ apple ]]; then
+	# OSX specific
+	 _LSCOLORS='GxFxCxDxBxegedabagaced'
+else
+	# nix specific
+	_LSCOLORS='di=33:ln=36:fi=0:pi=36:ex=32:so=1;35:bd=01;33:cd=01;33:or=37:mi=37'
+fi
+
+cs() { cd "$1" && ls -alhG; }
+
+export CLICOLOR=1
+export LSCOLORS=$_LSCOLORS
+alias ls='ls -alhG'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias cd="cs"
 
 # removes all branches except for dev and master from local, and cleans remote references
-alias gclean='git fetch -p && git branch | grep -Ev "master|dev" | xargs git branch -D'
+alias gclean='git fetch -p && git branch | grep -Ev "master|dev" | xargs -p git branch -d'
 
-# removes branches in local that are also gone in remote
-alias gprune='git fetch -p && git branch -vv | grep ": gone" | awk "{print $1}" | xargs -p git branch -d'
+# removes branches in local that are also gone in remote, and cleans remote references
+alias gprune='git fetch -p && git branch -vv | grep ": gone" | awk '\''{print $1}'\'' | xargs -p git branch -d'
 
 # install GEMs and NPM packages locally so we dont need to use sudo
 export GEM_HOME=$HOME/.gem
