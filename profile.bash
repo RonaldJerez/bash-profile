@@ -13,6 +13,9 @@ GRAY="\e[0;37m"
 WHITE="\e[0;97m"
 CLEAR="\e[0m"
 
+# TODO include own git completion file instead of relying on xcode
+GIT_COMPLETION_FILE=/Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-completion.bash
+
 # function to style console output
 # you can combine, color, style, or make color lighther
 # combining of format (bold/underline etc) is not supported
@@ -157,8 +160,9 @@ open_code() {
 }
 
 # source in git completion
-# TODO include own git completion file instead of relying on xcode
-source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-completion.bash
+if [ -f $GIT_COMPLETION_FILE ]; then
+	source $GIT_COMPLETION_FILE
+fi
 
 # get the user display name rather than handle
 USERNAME=$(finger $USER | head -1 | cut -d : -f 3)
