@@ -205,6 +205,7 @@ else
 	_LSCOLORS='di=33:ln=36:fi=0:pi=36:ex=32:so=1;35:bd=01;33:cd=01;33:or=37:mi=37'
 fi
 
+# run ls right after cd
 cs() { cd "$1" && ls -alhG; }
 
 export CLICOLOR=1
@@ -219,6 +220,9 @@ alias gclean='git fetch -p && git branch | grep -Ev "master|dev" | xargs -p git 
 
 # removes branches in local that are also gone in remote, and cleans remote references
 alias gprune='git fetch -p && git branch -vv | grep ": gone" | awk '\''{print $1}'\'' | xargs -p git branch -d'
+
+# amend the last commit with current changes and update the author/date info
+alias gamend='git commit --amend --no-edit --reset-author'
 
 # install GEMs and NPM packages locally so we dont need to use sudo
 export GEM_HOME=$HOME/.gem
