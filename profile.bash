@@ -119,9 +119,11 @@ prompt_git() {
 		fi
 
 		# get the short symbolic ref
-		# if HEAD isn't a symbolic ref, get the short SHA
+		# if HEAD isn't a symbolic ref, get the tag
+		# if there is no tag, get the short SHA
 		# otherwise, just give up
 		branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+						git describe --exact-match --tags 2> /dev/null || \
 					  git rev-parse --short HEAD 2> /dev/null || \
 					  printf "(unknown)")"
 
@@ -216,10 +218,10 @@ alias ...='cd ../..'
 alias cd="cs"
 
 # removes all branches except for dev and master from local, and cleans remote references
-alias gclean='git fetch -p && git branch | grep -Ev "master|dev" | xargs -p git branch -d'
+alias gclean='git fetch -p && git branch | grep -Ev "master|dev" | xargs -p git branch -D'
 
 # removes branches in local that are also gone in remote, and cleans remote references
-alias gprune='git fetch -p && git branch -vv | grep ": gone" | awk '\''{print $1}'\'' | xargs -p git branch -d'
+alias gprune='git fetch -p && git branch -vv | grep ": gone" | awk '\''{print $1}'\'' | xargs -p git branch -D'
 
 # amend the last commit with current changes and update the author/date info
 alias gamend='git commit --amend --no-edit --reset-author'
